@@ -6,7 +6,9 @@
   "scripts": {
     "devStart": "npx nodemon ./server.ts",
     "start": "node ./build/server.js",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "npx eslint '*/**/*.{js,ts,tsx}'",
+    "format": "npx eslint '*/**/*.{js,ts,tsx}' --fix"
   },
   "keywords": [],
   "author": "",

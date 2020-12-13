@@ -3,7 +3,7 @@ import 'dotenv/config';
 
 let database: mongoose.Connection;
 
-export function connect() {
+export function connect(): void {
     if (database) return;
 
     mongoose.connect(process.env.MONGODB_URI!, {
@@ -24,7 +24,7 @@ export function connect() {
     });
 }
 
-export function disconnect() {
+export function disconnect(): void {
     if (!database) return;
     mongoose.disconnect();
 }

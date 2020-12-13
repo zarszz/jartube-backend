@@ -8,7 +8,7 @@ import { UserModel } from '../database/users/users.model';
 import Formidable from 'formidable';
 import fs from 'fs';
 
-export async function register(req: Request, res: Response): Promise<void> {
+export function register(req: Request, res: Response): void {
     const formidable = new Formidable.IncomingForm();
 
     formidable.parse(
