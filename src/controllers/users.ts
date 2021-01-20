@@ -27,7 +27,7 @@ export function update(req: Request, res: Response): void {
                     if (!fields[key]) throw new Error(`${key} is required !`);
                 });
 
-                const { email, password, firstName, lastName, age, birthDate } = fields;
+                const { email, password, firstName, lastName, birthDate } = fields;
 
                 if (files.file) {
                     const data: ReadStream = createReadStream(files.file.path);
@@ -35,7 +35,7 @@ export function update(req: Request, res: Response): void {
                 }
 
                 // Generate hashed password
-                const hashedPassword = await hashPassword(password as string)
+                const hashedPassword = await hashPassword(password as string);
 
                 const old_data = <IUser>await UserModel.findById(id);
 

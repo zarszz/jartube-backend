@@ -55,24 +55,28 @@ export function register(req: Request, res: Response): void {
 
 export async function login(req: Request, res: Response): Promise<void | Response> {
     try {
-        const formidable = new IncomingForm();        
-        formidable.parse(req, async (err: Error, fields: Fields, _): Promise<Response>=> {
-            const { email, password } = fields;
+        const formidable = new IncomingForm();
+        formidable.parse(
+            req,
+            async (err: Error, fields: Fields): Promise<Response> => {
+                if (err) throw new Error(err.message);
+                const { email, password } = fields;
 
-            if (!email && !password) throw new Error('Email and password cannot be blank !!');
-            const user = <IUserDocument>await UserModel.findOne({
-                email: email as string
-            });
-    
-            // Validate password
-            const is_validate = await comparePassword(password as string, user.password);
-            if (!is_validate) throw new Error('Username or password incorrect .');
-    
-            // Generate token if password is valid !!
-            const token = await generateJWT(user._id);
-            
-            return res.send({status: 'Success', token}).status(200);
-        })
+                if (!email && !password) throw new Error('Email and password cannot be blank !!');
+                const user = <IUserDocument>await UserModel.findOne({
+                    email: email as string,
+                });
+
+                // Validate password
+                const is_validate = await comparePassword(password as string, user.password);
+                if (!is_validate) throw new Error('Username or password incorrect .');
+
+                // Generate token if password is valid !!
+                const token = await generateJWT(user._id);
+
+                return res.send({ status: 'Success', token }).status(200);
+            },
+        );
     } catch (error) {
         if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
         return res.send({ status: 'Error', error }).status(500);
