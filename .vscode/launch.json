@@ -8,7 +8,6 @@
         "runtimeExecutable": "${workspaceFolder}/node_modules/nodemon/bin/nodemon.js",
         "program": "${workspaceFolder}/server.ts",
         "restart": true,
-        "console": "integratedTerminal",
         "internalConsoleOptions": "neverOpen",
         "skipFiles": [
             "<node_internals>/**"

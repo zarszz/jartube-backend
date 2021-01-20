@@ -4,8 +4,8 @@ import type { ReadStream } from 'fs';
 import AWS from 'aws-sdk';
 
 export const S3 = new AWS.S3({
-    accessKeyId: process.env.S3_ACCESS!,
-    secretAccessKey: process.env.S3_SECRET_ACCESS!,
+    accessKeyId: process.env.S3_ACCESS_KEY!,
+    secretAccessKey: process.env.S3_SECRET!,
     sessionToken: process.env.S3_SESSION_TOKEN!,
 });
 
