@@ -1,4 +1,4 @@
-import type { PutObjectOutput } from 'aws-sdk/clients/s3';
+import type { DeleteObjectOutput, PutObjectOutput } from 'aws-sdk/clients/s3';
 import type { ReadStream } from 'fs';
 
 import AWS from 'aws-sdk';
@@ -16,4 +16,8 @@ export async function put_object(data: Buffer | ReadStream, filename: string): P
         Bucket: String(process.env.S3_BUCKET_NAME!),
         ACL: 'public-read',
     }).promise();
+}
+
+export async function delete_object(filename: string): Promise<DeleteObjectOutput> {
+    return S3.deleteObject({ Bucket: process.env.S3_BUCKET_NAME!, Key: filename }).promise();
 }
