@@ -5,7 +5,6 @@ export interface IUser {
     password: string;
     firstName: string;
     lastName: string;
-    age: number;
     birthDate: Date;
     imageUrl: string;
     dateOfEntry?: Date;

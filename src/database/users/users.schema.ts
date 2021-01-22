@@ -1,13 +1,15 @@
 import { Schema } from 'mongoose';
-import { findAll, findByAge } from './users.statics';
-import { setLastUpdated, sameLastName } from './users.methods';
+// import { findAll, findByAge } from './users.statics';
+// import { setLastUpdated, sameLastName } from './users.methods';
 
 export const UserSchema = new Schema({
-    email: String,
+    email: {
+        type: String,
+        unique: true,
+    },
     password: String,
     firstName: String,
     lastName: String,
-    age: Number,
     birthDate: Date,
     imageUrl: String,
     dateOfEntry: {
@@ -20,10 +22,10 @@ export const UserSchema = new Schema({
     },
 });
 
-UserSchema.statics.findByAge = findByAge;
-UserSchema.statics.findAll = findAll;
+// UserSchema.statics.findByAge = findByAge;
+// UserSchema.statics.findAll = findAll;
 
-UserSchema.methods.setLastUpdated = setLastUpdated;
-UserSchema.methods.sameLastName = sameLastName;
+// UserSchema.methods.setLastUpdated = setLastUpdated;
+// UserSchema.methods.sameLastName = sameLastName;
 
 export default UserSchema;
