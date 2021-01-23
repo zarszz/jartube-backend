@@ -82,6 +82,22 @@ export async function viewVideo(req: Request, res: Response): Promise<Response> 
     }
 }
 
+export async function viewVideoByUser(req : Request, res: Response): Promise<Response> {
+    try {
+        const { userID } = req.params;
+
+        const video = <IVideoDocument>await VideoModel.findOne({ owner: userID });
+
+        video.viewed = video.viewed + 1;
+        await video.save();
+
+        return res.status(200).send({ status: 'Success', video });
+    } catch (error) {
+        if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
+        return res.send({ status: 'Error', error }).status(500);
+    }
+}
+
 export async function updateVideo(req: Request, res: Response): Promise<void> {
     const form = new IncomingForm();
 
