@@ -72,6 +72,9 @@ export async function viewVideo(req: Request, res: Response): Promise<Response> 
 
         const video = <IVideoDocument>await VideoModel.findById(id);
 
+        video.viewed = video.viewed + 1;
+        await video.save();
+
         return res.status(200).send({ status: 'Success', video });
     } catch (error) {
         if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
