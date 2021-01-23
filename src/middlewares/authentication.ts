@@ -4,8 +4,8 @@ import { validateJWT } from '../utils/auth.util';
 
 export async function verifyToken(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
     const bearer = req.header('token')!;
+    if (!bearer) throw new Error('No token provided !!');
     const token = bearer.split(' ')[1];
-    if (!token) throw new Error('No token provided !!');
 
     try {
         const verified_token = await validateJWT(token as string);

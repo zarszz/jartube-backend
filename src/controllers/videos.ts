@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
 import { createReadStream } from 'fs';
 import type { ReadStream } from 'fs';
+
 import { Fields, Files, IncomingForm } from 'formidable';
 import { VIDEO_KEY } from '../constant/valid_keys';
 import { IVideo, IVideoDocument } from '../database/videos/videos.types';
@@ -63,6 +64,19 @@ export async function createVideo(req: Request, res: Response): Promise<void> {
             }
         },
     );
+}
+
+export async function viewVideo(req: Request, res: Response): Promise<Response> {
+    try {
+        const { id } = req.params;
+
+        const video = <IVideoDocument>await VideoModel.findById(id);
+
+        return res.status(200).send({ status: 'Success', video });
+    } catch (error) {
+        if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
+        return res.send({ status: 'Error', error }).status(500);
+    }
 }
 
 export async function updateVideo(req: Request, res: Response): Promise<void> {
