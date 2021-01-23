@@ -66,7 +66,7 @@ export async function createVideo(req: Request, res: Response): Promise<void> {
     );
 }
 
-export async function viewVideos(_ : Request, res: Response): Promise<Response>  {
+export async function viewVideos(_: Request, res: Response): Promise<Response> {
     try {
         const data: IVideoDocument[] = await VideoModel.find({});
         return res.status(200).send({ status: 'Success', data });
@@ -78,7 +78,7 @@ export async function viewVideos(_ : Request, res: Response): Promise<Response> 
 
 export async function viewRandomVideo(_: Request, res: Response): Promise<Response> {
     try {
-        const data = <IVideoDocument[]> await VideoModel.aggregate([ {$sample: { size: 1 } }]);
+        const data = <IVideoDocument[]>await VideoModel.aggregate([{ $sample: { size: 1 } }]);
         return res.status(200).send({ status: 'Success', data });
     } catch (error) {
         if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
@@ -102,7 +102,7 @@ export async function viewVideo(req: Request, res: Response): Promise<Response> 
     }
 }
 
-export async function viewVideoByUser(req : Request, res: Response): Promise<Response> {
+export async function viewVideoByUser(req: Request, res: Response): Promise<Response> {
     try {
         const { userID } = req.params;
 
