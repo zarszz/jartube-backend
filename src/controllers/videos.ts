@@ -66,6 +66,16 @@ export async function createVideo(req: Request, res: Response): Promise<void> {
     );
 }
 
+export async function viewVideos(_ : Request, res: Response): Promise<Response>  {
+    try {
+        const data: IVideoDocument[] = await VideoModel.find({});
+        return res.status(200).send({ status: 'Success', data });
+    } catch (error) {
+        if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
+        return res.send({ status: 'Error', error }).status(500);
+    }
+}
+
 export async function viewVideo(req: Request, res: Response): Promise<Response> {
     try {
         const { id } = req.params;
