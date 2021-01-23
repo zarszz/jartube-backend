@@ -137,7 +137,7 @@ export async function updateVideo(req: Request, res: Response): Promise<void> {
     );
 }
 
-export async function updateLikeVideo(req: Request, res: Response) {
+export async function updateLikeVideo(req: Request, res: Response): Promise<Response> {
     try {
         const { id } = req.params;
 
@@ -153,7 +153,7 @@ export async function updateLikeVideo(req: Request, res: Response) {
     }
 }
 
-export async function updateDislikeVideo(req: Request, res: Response) {
+export async function updateDislikeVideo(req: Request, res: Response): Promise<Response> {
     try {
         const { id } = req.params;
 
