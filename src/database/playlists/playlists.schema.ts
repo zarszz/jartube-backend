@@ -3,7 +3,7 @@ import { Schema } from 'mongoose';
 export const PlaylistSchema = new Schema({
     owner: {
         type: String,
-        unique: true
+        unique: true,
     },
     name: String,
     description: String,

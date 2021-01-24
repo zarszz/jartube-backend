@@ -1,5 +1,13 @@
 import { Router } from 'express';
-import { addVideoToPlaylist, createPlaylist, deletePlaylist, deleteVideoFromPlaylist, updatePlaylist, viewPlaylist, viewUserPlaylists } from '../controllers/playlist';
+import {
+    addVideoToPlaylist,
+    createPlaylist,
+    deletePlaylist,
+    deleteVideoFromPlaylist,
+    updatePlaylist,
+    viewPlaylist,
+    viewUserPlaylists,
+} from '../controllers/playlist';
 import { verifyToken } from '../middlewares/authentication';
 
 const playlistRouter = Router();
@@ -12,7 +20,5 @@ playlistRouter.post('/playlists/:id/video/:videoID', verifyToken, addVideoToPlay
 playlistRouter.get('/playlists/:id', verifyToken, viewPlaylist);
 playlistRouter.get('/playlists/user/:userID', verifyToken, viewUserPlaylists);
 playlistRouter.delete('/playlists/:id/video/:videoID', verifyToken, deleteVideoFromPlaylist);
-
-
 
 export default playlistRouter;
