@@ -7,9 +7,11 @@ import { createReadStream } from 'fs';
 
 import { put_object } from '../utils/s3';
 import { REGISTER_KEY } from '../constant/valid_keys';
-import { IUser } from '../database/users/users.types';
+import { IUser, IUserDocument } from '../database/users/users.types';
 import { UserModel } from '../database/users/users.model';
 import { hashPassword, isUserExist } from '../utils/users.util';
+import { IUserConfigurationDocument } from '../database/user_configuration/user_configuration.types';
+import { UserConfigurationModel } from '../database/user_configuration/user_configuration.model';
 
 export function update(req: Request, res: Response): void {
     const formidable = new IncomingForm();
@@ -69,8 +71,17 @@ export async function getUserByID(req: Request, res: Response): Promise<Response
 
         if (!(await isUserExist(id))) throw new Error(`$User not found !!`);
 
-        const user = <IUser>await UserModel.findOne({ _id: id }).select({ password: 0 });
-        return res.send({ status: 'Success', user }).status(200);
+        const user = <IUserDocument>await UserModel.findOne({ _id: id }).select({ password: 0 });
+        const user_configuration = <IUserConfigurationDocument>await UserConfigurationModel.findOne({ owner: user.id });
+        return res
+            .send({
+                status: 'Success',
+                data: {
+                    user,
+                    user_configuration,
+                },
+            })
+            .status(200);
     } catch (error) {
         if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
         return res.send({ status: 'Error', error }).status(500);
