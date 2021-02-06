@@ -1,4 +1,5 @@
 import { Document, Model } from 'mongoose';
+import { IUserConfigurationDocument } from '../user_configuration/user_configuration.types';
 
 export interface IUser {
     email: string;
@@ -9,6 +10,11 @@ export interface IUser {
     imageUrl: string;
     dateOfEntry?: Date;
     lastUpdated?: Date;
+}
+
+export interface IUserDetail {
+    user: IUserDocument;
+    user_configuration: IUserConfigurationDocument;
 }
 
 export interface IUserDocument extends IUser, Document {
