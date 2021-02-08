@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParser from "cookie-parser";
 import 'dotenv/config';
 
 import { connect } from "./src/database/database";
@@ -11,6 +12,7 @@ import userConfigurationRouter from "./src/route/user_configuration";
 const app = express();
 connect();
 
+app.use(cookieParser());
 app.use(userRouter);
 app.use(authRouter);
 app.use(videoRouter);
