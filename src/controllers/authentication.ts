@@ -98,7 +98,10 @@ export async function login(req: Request, res: Response): Promise<void | Respons
                 if (!is_validate) throw new Error('Username or password incorrect .');
 
                 // Generate token if password is valid !!
-                const token = await generateJWT(user._id);
+                const token = await generateJWT(user.id);
+
+                res.cookie('token', token, { httpOnly: true });
+                res.cookie('user', user.id, { httpOnly: true });
 
                 return res.send({ status: 'Success', token }).status(200);
             },
