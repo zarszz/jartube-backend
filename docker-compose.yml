@@ -1,0 +1,21 @@
+version: '3.1'
+services:
+  jartube:
+    build: .
+    ports:
+        - '8060:3000'
+  mongo:
+    image: 'mongo'
+    restart: always
+    container_name: mongoDB
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - mongo-db:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    ports:
+      - '8061:27017'
+volumes:
+  mongo-db:
