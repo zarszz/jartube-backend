@@ -1,18 +1,25 @@
-## this is the stage one , also know as the build step
-
 FROM node:14.15-buster
+
+# Create a workdir directory
 WORKDIR /usr/src/app
+
+# Copy all files to work directory
 COPY . .
+
+# install all depedencies
 RUN npm install
+
+# run linter
+RUN npm run lint
+
+# build 
 RUN npm run build
+RUN mkdir videos
 
-## this is stage two , where the app actually runs
+# copy a private and public key
+COPY private.pem /usr/src/app/build
+COPY public.pem /usr/src/app/build
 
-FROM node:14.15-buster
-
-WORKDIR /usr/src/app
-COPY package*.json ./
-RUN npm install --only=production
-COPY --from=0 /usr/src/app/build ./build
+# expose container to port 3000
 EXPOSE 3000
 CMD ["npm", "start"]
