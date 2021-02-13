@@ -6,7 +6,7 @@
         "request": "launch",
         "name": "nodemon",
         "runtimeExecutable": "${workspaceFolder}/node_modules/nodemon/bin/nodemon.js",
-        "program": "${workspaceFolder}/server.ts",
+        "program": "${workspaceFolder}/src/server.ts",
         "restart": true,
         "internalConsoleOptions": "neverOpen",
         "skipFiles": [

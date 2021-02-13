@@ -7,8 +7,11 @@
         "test",
         "build",
         "coverage",
-        "dist",
-        "**/*.spec.ts"
+        "dist",        
+        "src/server.ts",
+        "**/*.spec.ts",
+        "*.schema.ts",
+        "*.js"
     ],
     "reporter": [
         "text",

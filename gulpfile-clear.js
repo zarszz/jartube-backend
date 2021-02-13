@@ -1,6 +1,8 @@
-import { task } from 'gulp';
-import del from 'del';
+var gulp = require('gulp');
+var del = require('del');
 
-task('default', function () {
-    return del(['build/']);
+gulp.task('default', function () {
+  return del([
+    'build/'
+  ]);
 });
