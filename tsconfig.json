@@ -1,10 +1,12 @@
 {
 	"extends": "./tsconfig.base.json",
+    "rooDir": "./",
 	"include": [
         "src/**/*.ts"
     ],
     "exclude": [
         "node_modules",
-        "test"
+        "test",
+        "*.js"
     ]
 }
