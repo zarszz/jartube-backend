@@ -10,9 +10,6 @@ COPY . .
 # install all depedencies
 RUN npm install
 
-# run linter
-RUN npm run lint
-
 # build 
 RUN npm run build
 
@@ -23,7 +20,7 @@ FROM node:14.15-buster as runner
 WORKDIR /usr/src/app
 
 # Copy package json file
-COPY package*.json .
+COPY package*.json ./
 
 # Install only not development depedencie(s)
 RUN npm install --only=production
@@ -32,9 +29,10 @@ RUN npm install --only=production
 COPY --from=0 /usr/src/app/build ./build
 
 # copy a private and public key
-COPY private.pem /usr/src/app/build
-COPY public.pem /usr/src/app/build
+COPY private.pem /usr/src/app
+COPY public.pem /usr/src/app
 
 # expose container to port 3000
 EXPOSE 3000
+
 CMD ["npm", "start"]
