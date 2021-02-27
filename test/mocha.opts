@@ -1,4 +1,4 @@
 # mocha.opts
-    --require test/ts-node-register.js
-    test/setup.spec.js
-    --recursive test/**/*.spec.ts
+    --require ./ts-node-register.js
+    ./setup.spec.js
+    --recursive ./**/*.spec.ts ./**/**/*.spec.test

@@ -10,7 +10,7 @@
         "dist",        
         "src/server.ts",
         "**/*.spec.ts",
-        "*.schema.ts",
+        "**/database/**/*.schema.ts",
         "*.js"
     ],
     "reporter": [

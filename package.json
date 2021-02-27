@@ -10,7 +10,7 @@
     "lint": "npx eslint '*/**/*.{js,ts,tsx}'",
     "format": "npx eslint '*/**/*.{js,ts,tsx}' --fix",
     "prebuild": "gulp --gulpfile gulpfile-clear.js",
-    "test": "mocha -r ts-node/register test/**/*.spec.ts",
+    "test": "mocha -r ts-node/register test/**/*.spec.ts test/**/**/*.spec.ts",
     "test:coverage": "nyc npm test"
   },
   "keywords": [],
