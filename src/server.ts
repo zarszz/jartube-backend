@@ -1,6 +1,6 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import 'dotenv/config';
+import dotenv from 'dotenv';
 
 import { connect } from './database/database';
 import userRouter from './route/users';
@@ -8,6 +8,8 @@ import authRouter from './route/auth';
 import videoRouter from './route/videos';
 import playlistRouter from './route/playlist';
 import userConfigurationRouter from './route/user_configuration';
+
+if (process.env['NODE_ENV'] === 'DEVELOPMENT' || process.env['NODE_ENV'] === 'TESTING') dotenv.config();
 
 const app = express();
 connect();
