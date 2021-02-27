@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { REGISTER_KEY, VIDEO_KEY, PLAYLIST_KEY } from '../../constant/valid_keys';
+import { REGISTER_KEY, VIDEO_KEY, PLAYLIST_KEY } from '../../src/constant/valid_keys';
 
 describe('REGISTER_KEY', () => {
     const valid_register_key = ['email', 'password', 'firstName', 'lastName', 'birthDate'];
