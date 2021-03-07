@@ -19,9 +19,8 @@ export function connect(): void {
         console.info('Connected to database');
     });
 
-    database.on('error', async (error: Error) => {
+    database.on('error', async () => {
         console.error('Error when connecting to database');
-        console.error(`${error.message}`);
     });
 }
 
