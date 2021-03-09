@@ -1,0 +1,18 @@
+version = 1
+
+test_patterns = [
+    "test/**/*.spec.ts ",
+    "test/**/**/*.spec.ts"
+]
+
+[[analyzers]]
+name = "javascript"
+enabled = true
+
+  [analyzers.meta]
+  dialect = "typescript"
+  style_guide = "standard"
+  environment = [
+    "nodejs",
+    "mocha"
+  ]
