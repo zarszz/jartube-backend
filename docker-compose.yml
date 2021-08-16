@@ -3,9 +3,11 @@ services:
   jartube:
     build: .
     environment:
-        - MONGODB_URI=${MONGODB_URI}
+      - MONGODB_URI=${MONGODB_URI}
     ports:
-        - '8060:3000'
+      - '8060:3000'
+    links: 
+      - elk        
   database:
     image: 'mongo'
     restart: always
@@ -18,6 +20,16 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
     ports:
       - '8061:27017'
+  elk:
+    image: sebp/elk
+    ports:
+      - "5601:5601"
+      - "9200:9200"
+      - "5044:5044"
+    volumes:
+      - elk-data:/var/lib/elasticsearch
+
 volumes:
+  elk-data:
+  mongo-db:
   jartube:
-    external: true

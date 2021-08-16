@@ -3,6 +3,7 @@ import { Fields, IncomingForm } from 'formidable';
 import { PlaylistModel } from '../database/playlists/playlists.model';
 import { IPlaylist, IPlaylistDocument } from '../database/playlists/playlists.types';
 import { UserModel } from '../database/users/users.model';
+import { logger } from '../utils/logging';
 
 export async function createPlaylist(req: Request, res: Response): Promise<void> {
     const { userID } = req.params;
@@ -26,6 +27,7 @@ export async function createPlaylist(req: Request, res: Response): Promise<void>
 
                 return res.status(200).send({ status: 'Success', data });
             } catch (error) {
+                logger.error(error);
                 if (error instanceof Error) return res.status(400).send({ status: 'Failed', message: error.message });
                 return res.status(500).send({ status: 'Error', error });
             }
@@ -46,6 +48,7 @@ export async function addVideoToPlaylist(req: Request, res: Response): Promise<R
 
         return res.status(200).send({ status: 'Success' });
     } catch (error) {
+        logger.error(error);
         if (error instanceof Error) return res.status(400).send({ status: 'Failed', message: error.message });
         return res.status(500).send({ status: 'Error', error });
     }
@@ -57,6 +60,7 @@ export async function viewPlaylist(req: Request, res: Response): Promise<Respons
         const data = <IPlaylistDocument>await PlaylistModel.findById(id);
         return res.status(200).send({ Status: 'Success', data });
     } catch (error) {
+        logger.error(error);
         if (error instanceof Error) return res.status(400).send({ status: 'Failed', message: error.message });
         return res.status(500).send({ status: 'Error', error });
     }
@@ -68,6 +72,7 @@ export async function viewUserPlaylists(req: Request, res: Response): Promise<Re
         const data = <IPlaylistDocument[]>await PlaylistModel.find({ owner: userID });
         return res.status(200).send({ Status: 'Success', data });
     } catch (error) {
+        logger.error(error);
         if (error instanceof Error) return res.status(400).send({ status: 'Failed', message: error.message });
         return res.status(500).send({ status: 'Error', error });
     }
@@ -98,6 +103,7 @@ export async function updatePlaylist(req: Request, res: Response): Promise<void>
 
                 return res.status(200).send({ status: 'Success', data });
             } catch (error) {
+                logger.error(error);
                 if (error instanceof Error) return res.status(400).send({ status: 'Failed', message: error.message });
                 return res.status(500).send({ status: 'Error', error });
             }
@@ -116,6 +122,7 @@ export async function deletePlaylist(req: Request, res: Response): Promise<Respo
 
         return res.status(200).send({ status: 'Success' });
     } catch (error) {
+        logger.error(error);
         if (error instanceof Error) return res.status(400).send({ status: 'Failed', message: error.message });
         return res.status(500).send({ status: 'Error', error });
     }
@@ -136,6 +143,7 @@ export async function deleteVideoFromPlaylist(req: Request, res: Response): Prom
 
         return res.status(200).send({ status: 'Success' });
     } catch (error) {
+        logger.error(error);
         if (error instanceof Error) return res.status(400).send({ status: 'Failed', message: error.message });
         return res.status(500).send({ status: 'Error', error });
     }

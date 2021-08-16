@@ -12,6 +12,7 @@ import { UserModel } from '../database/users/users.model';
 import { hashPassword, isUserExist } from '../utils/users.util';
 import { IUserConfigurationDocument } from '../database/user_configuration/user_configuration.types';
 import { UserConfigurationModel } from '../database/user_configuration/user_configuration.model';
+import { logger } from '../utils/logging';
 
 export function update(req: Request, res: Response): void {
     const formidable = new IncomingForm();
@@ -58,6 +59,7 @@ export function update(req: Request, res: Response): void {
 
                 return res.send({ status: 'Success', result }).status(200);
             } catch (error) {
+                logger.error(error);
                 if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
                 return res.send({ status: 'Error', error }).status(500);
             }
@@ -83,6 +85,7 @@ export async function getUserByID(req: Request, res: Response): Promise<Response
             })
             .status(200);
     } catch (error) {
+        logger.error(error);
         if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
         return res.send({ status: 'Error', error }).status(500);
     }
@@ -93,6 +96,7 @@ export async function getUsers(_: Request, res: Response): Promise<Response> {
         const users: IUser[] = await UserModel.find({}).select({ password: 0 });
         return res.send({ status: 'Success', users }).status(200);
     } catch (error) {
+        logger.error(error);
         if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
         return res.send({ status: 'Error', error }).status(500);
     }
@@ -104,6 +108,7 @@ export async function deleteUser(req: Request, res: Response): Promise<Response>
         await UserModel.deleteOne({ _id: id });
         return res.send({ status: 'Success' }).status(200);
     } catch (error) {
+        logger.error(error);
         if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
         return res.send({ status: 'Error', error }).status(500);
     }

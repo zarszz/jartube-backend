@@ -10,6 +10,7 @@ import { VideoModel } from '../database/videos/videos.model';
 import { removeWhiteSpace, validateVideo } from '../utils/files.utils';
 import { validateJWT } from '../utils/auth.util';
 import { authorizeVideo } from '../utils/video.auth.util';
+import { logger } from '../utils/logging';
 
 export async function createVideo(req: Request, res: Response): Promise<void> {
     const form = new IncomingForm();
@@ -59,6 +60,7 @@ export async function createVideo(req: Request, res: Response): Promise<void> {
 
                 return res.status(200).send({ status: 'Success', data });
             } catch (error) {
+                logger.error(error);
                 if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
                 return res.send({ status: 'Error', error }).status(500);
             }
@@ -71,6 +73,7 @@ export async function viewVideos(_: Request, res: Response): Promise<Response> {
         const data: IVideoDocument[] = await VideoModel.find({});
         return res.status(200).send({ status: 'Success', data });
     } catch (error) {
+        logger.error(error);
         if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
         return res.send({ status: 'Error', error }).status(500);
     }
@@ -81,6 +84,7 @@ export async function viewRandomVideo(_: Request, res: Response): Promise<Respon
         const data = <IVideoDocument[]>await VideoModel.aggregate([{ $sample: { size: 1 } }]);
         return res.status(200).send({ status: 'Success', data });
     } catch (error) {
+        logger.error(error);
         if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
         return res.send({ status: 'Error', error }).status(500);
     }
@@ -97,6 +101,7 @@ export async function viewVideo(req: Request, res: Response): Promise<Response> 
 
         return res.status(200).send({ status: 'Success', video });
     } catch (error) {
+        logger.error(error);
         if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
         return res.send({ status: 'Error', error }).status(500);
     }
@@ -113,6 +118,7 @@ export async function viewVideoByUser(req: Request, res: Response): Promise<Resp
 
         return res.status(200).send({ status: 'Success', video });
     } catch (error) {
+        logger.error(error);
         if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
         return res.send({ status: 'Error', error }).status(500);
     }
@@ -166,6 +172,7 @@ export async function updateVideo(req: Request, res: Response): Promise<void> {
 
                 return res.status(200).send({ status: 'Success', data });
             } catch (error) {
+                logger.error(error);
                 if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
                 return res.send({ status: 'Error', error }).status(500);
             }
@@ -184,6 +191,7 @@ export async function updateLikeVideo(req: Request, res: Response): Promise<Resp
 
         return res.status(200).send({ status: 'Success', video });
     } catch (error) {
+        logger.error(error);
         if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
         return res.send({ status: 'Error', error }).status(500);
     }
@@ -200,6 +208,7 @@ export async function updateDislikeVideo(req: Request, res: Response): Promise<R
 
         return res.status(200).send({ status: 'Success', video });
     } catch (error) {
+        logger.error(error);
         if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
         return res.send({ status: 'Error', error }).status(500);
     }
@@ -213,6 +222,7 @@ export async function deleteVideo(req: Request, res: Response): Promise<Response
         await delete_object(filename);
         return res.status(200).send({ status: 'Success' });
     } catch (error) {
+        logger.error(error);
         if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
         return res.send({ status: 'Error', error }).status(500);
     }

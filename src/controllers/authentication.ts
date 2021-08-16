@@ -1,4 +1,4 @@
-import type { Request, Response } from 'express';
+import { request, Request, Response } from 'express';
 import type { ReadStream } from 'fs';
 import type { Fields, Files } from 'formidable';
 
@@ -16,6 +16,7 @@ import {
     IUserConfiguration,
     IUserConfigurationDocument,
 } from '../database/user_configuration/user_configuration.types';
+import { logger } from '../utils/logging';
 
 export function register(req: Request, res: Response): void {
     const formidable = new IncomingForm();
@@ -61,7 +62,6 @@ export function register(req: Request, res: Response): void {
                 const userConfiguration = <IUserConfigurationDocument>(
                     await UserConfigurationModel.create(configuration)
                 );
-
                 return res
                     .send({
                         status: 'Success',
@@ -72,6 +72,7 @@ export function register(req: Request, res: Response): void {
                     })
                     .status(200);
             } catch (error) {
+                logger.error(error);
                 if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
                 return res.send({ status: 'Error', error }).status(500);
             }
@@ -107,6 +108,7 @@ export async function login(req: Request, res: Response): Promise<void | Respons
             },
         );
     } catch (error) {
+        logger.error(error);
         if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
         return res.send({ status: 'Error', error }).status(500);
     }

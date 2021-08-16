@@ -4,6 +4,7 @@ import { IComments, ICommentsChildDocument, ICommentsDocument } from '../databas
 import { VideoModel } from '../database/videos/videos.model';
 import { CommentModel } from '../database/comments/comments.model';
 import { IVideoDocument } from '../database/videos/videos.types';
+import { logger } from '../utils/logging';
 
 export function createComment(req: Request, res: Response): void {
     const form = new IncomingForm();
@@ -27,6 +28,7 @@ export function createComment(req: Request, res: Response): void {
                 const data = <ICommentsDocument>await CommentModel.create(comment);
                 return res.status(200).send({ status: 'Success', data });
             } catch (error) {
+                logger.error(error);
                 return res.status(400).send({ status: 'Error', message: error.message });
             }
         },
@@ -57,6 +59,7 @@ export function createChildComment(req: Request, res: Response): void {
                 comment.save();
                 return res.status(200).send({ status: 'Success', data: comment });
             } catch (error) {
+                logger.error(error);
                 return res.status(400).send({ status: 'Error', message: error.message });
             }
         },
@@ -73,6 +76,7 @@ export async function viewComments(req: Request, res: Response): Promise<Respons
 
         return res.status(200).send({ status: 'Success', data: comments });
     } catch (error) {
+        logger.error(error);
         return res.status(400).send({ status: 'Error', message: error.message });
     }
 }
@@ -89,6 +93,7 @@ export async function viewCommentsById(req: Request, res: Response): Promise<Res
 
         return res.status(200).send({ status: 'Success', data });
     } catch (error) {
+        logger.error(error);
         return res.status(400).send({ status: 'Error', message: error.message });
     }
 }
@@ -121,6 +126,7 @@ export async function updateComment(req: Request, res: Response): Promise<void> 
 
                 return res.status(200).send({ message: 'Success', data });
             } catch (error) {
+                logger.error(error);
                 return res.status(400).send({ status: 'Error', message: error.message });
             }
         },
@@ -156,6 +162,7 @@ export async function updateChildComment(req: Request, res: Response): Promise<v
                     return res.status(200).send({ message: 'Success', data });
                 });
             } catch (error) {
+                logger.error(error);
                 return res.status(400).send({ status: 'Error', message: error.message });
             }
         },
@@ -173,6 +180,7 @@ export async function deleteComment(req: Request, res: Response): Promise<Respon
 
         return res.status(200).send({ status: 'Success' });
     } catch (error) {
+        logger.error(error);
         return res.status(400).send({ status: 'Error', message: error.message });
     }
 }
@@ -197,6 +205,7 @@ export async function deleteChildComment(req: Request, res: Response): Promise<R
             return res.status(200).send({ message: 'Success', data });
         });
     } catch (error) {
+        logger.error(error);
         return res.status(400).send({ status: 'Error', message: error.message });
     }
 }

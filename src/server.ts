@@ -8,6 +8,7 @@ import authRouter from './route/auth';
 import videoRouter from './route/videos';
 import playlistRouter from './route/playlist';
 import userConfigurationRouter from './route/user_configuration';
+import { expressLogger } from './utils/logging';
 
 if (process.env['NODE_ENV'] === 'DEVELOPMENT' || process.env['NODE_ENV'] === 'TESTING') dotenv.config();
 
@@ -15,6 +16,7 @@ const app = express();
 connect();
 
 app.use(cookieParser());
+app.use(expressLogger);
 app.use(userRouter);
 app.use(authRouter);
 app.use(videoRouter);

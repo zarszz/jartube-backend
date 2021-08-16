@@ -5,6 +5,7 @@ import {
     IUserConfiguration,
     IUserConfigurationDocument,
 } from '../database/user_configuration/user_configuration.types';
+import { logger } from '../utils/logging';
 import { isUserExist } from '../utils/users.util';
 
 export async function getUserConfigurationById(req: Request, res: Response): Promise<Response> {
@@ -17,6 +18,7 @@ export async function getUserConfigurationById(req: Request, res: Response): Pro
 
         return res.send({ status: 'Success', configuration }).status(200);
     } catch (error) {
+        logger.error(error);
         if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
         return res.send({ status: 'Error', error }).status(500);
     }
@@ -66,6 +68,7 @@ export async function updateUserConfiguration(req: Request, res: Response): Prom
             );
             return res.status(200).send({ status: 'Success', result });
         } catch (error) {
+            logger.error(error);
             if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
             return res.send({ status: 'Error', error }).status(500);
         }
