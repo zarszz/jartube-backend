@@ -1,4 +1,4 @@
-import { request, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import type { ReadStream } from 'fs';
 import type { Fields, Files } from 'formidable';
 
@@ -81,11 +81,11 @@ export function register(req: Request, res: Response): void {
 }
 
 export async function login(req: Request, res: Response): Promise<void | Response> {
-    try {
-        const formidable = new IncomingForm();
-        formidable.parse(
-            req,
-            async (err: Error, fields: Fields): Promise<Response> => {
+    const formidable = new IncomingForm();
+    formidable.parse(
+        req,
+        async (err: Error, fields: Fields): Promise<Response> => {
+            try {
                 if (err) throw new Error(err.message);
                 const { email, password } = fields;
 
@@ -93,6 +93,8 @@ export async function login(req: Request, res: Response): Promise<void | Respons
                 const user = <IUserDocument>await UserModel.findOne({
                     email: email as string,
                 });
+
+                if (!user) throw new Error('User or password incorrect');
 
                 // Validate password
                 const is_validate = await comparePassword(password as string, user.password);
@@ -105,11 +107,11 @@ export async function login(req: Request, res: Response): Promise<void | Respons
                 res.cookie('user', user.id, { httpOnly: true });
 
                 return res.send({ status: 'Success', token }).status(200);
-            },
-        );
-    } catch (error) {
-        logger.error(error);
-        if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
-        return res.send({ status: 'Error', error }).status(500);
-    }
+            } catch (error) {
+                logger.error(error);
+                if (error instanceof Error) return res.send({ status: 'Failed', message: error.message }).status(400);
+                return res.send({ status: 'Error', error }).status(500);
+            }
+        },
+    );
 }

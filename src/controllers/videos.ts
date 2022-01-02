@@ -11,6 +11,7 @@ import { removeWhiteSpace, validateVideo } from '../utils/files.utils';
 import { validateJWT } from '../utils/auth.util';
 import { authorizeVideo } from '../utils/video.auth.util';
 import { logger } from '../utils/logging';
+import { send } from '../utils/queue.util';
 
 export async function createVideo(req: Request, res: Response): Promise<void> {
     const form = new IncomingForm();
@@ -35,10 +36,6 @@ export async function createVideo(req: Request, res: Response): Promise<void> {
 
                 files['video'].name = removeWhiteSpace(files['video'].name);
 
-                // Upload to S3 storage
-                const stream: ReadStream = createReadStream(files['video'].path);
-                put_object(stream, files['video'].name);
-
                 const videoUrl = `https://${process.env.S3_BUCKET_NAME}.s3.amazonaws.com/${files['video'].name}`;
 
                 // Create video object
@@ -57,6 +54,18 @@ export async function createVideo(req: Request, res: Response): Promise<void> {
 
                 // Put to database
                 const data = <IVideoDocument>await VideoModel.create(video);
+
+                // Upload to S3 storage
+                const stream: ReadStream = createReadStream(files['video'].path);
+                if (process.env.USING_QUEUE) {
+                    const chunks = [];
+                    for await (const chunk of stream) {
+                        chunks.push(chunk);
+                    }
+                    send(Buffer.concat(chunks), files['video'].name);
+                } else {
+                    // put_object(stream, files['video'].name);
+                }
 
                 return res.status(200).send({ status: 'Success', data });
             } catch (error) {
